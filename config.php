@@ -1,11 +1,18 @@
 <?php
-$host="localhost";
-$user="root";
-$pass="";
-$dbName="news_database";
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbName = "news_database";
 
-$conn= new mysqli($host, $user, $pass, $dbName);
-if ($conn->connect_error ) {
-    die("connection faild".$conn->connect_error);
+class DBConnection
+{
+    public static function connect(): mysqli
+    {
+        $conn = new mysqli("localhost", "root", "", "News Portal", 3306);
+        if ($conn->connect_error) {
+            echo "Connection error: " . $conn->connect_error;
+        }
+
+        return $conn;
+    }
 }
-
