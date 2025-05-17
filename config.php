@@ -8,7 +8,7 @@ class DBConnection
 {
     public static function connect(): mysqli
     {
-        $conn = new mysqli("localhost", "root", "", "News Portal", 3306);
+        $conn = new mysqli("localhost", "root", "", "news_database");
         if ($conn->connect_error) {
             echo "Connection error: " . $conn->connect_error;
         }

@@ -1,4 +1,5 @@
 <?php
+require_once 'config.php';
 class User
 {
     public function create($name, $email, $password, $role)
@@ -15,6 +16,24 @@ class User
 
         return false;
     }
+
+    public function login($email, $password){
+        $sql = "SELECT * FROM user WHERE email='$email' AND password='$password'";
+        $conn = DBConnection::connect();
+
+        $result = $conn->query($sql);
+
+        $user = $result->fetch_assoc();
+
+        if ($user){
+            return $user;
+        }
+        else{
+            return False;
+        }
+
+    }
+
 
     public function getAllUsers()
     {
@@ -39,4 +58,7 @@ class User
 
         return false;
     }
+
+
+
 }

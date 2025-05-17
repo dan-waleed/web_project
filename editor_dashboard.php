@@ -1,9 +1,10 @@
 <?php
 require_once 'config.php';
-
+require_once 'models/news.php';
+require_once 'models/user.php';
 // جلب الأخبار من الأحدث إلى الأقدم
-$sql = "SELECT * FROM news ORDER BY dateposted DESC";
-$result = $conn->query($sql);
+$alllnews=news::getAllNewsDesc();
+$result = $conn->query($alllnews);
 ?>
 
 <!DOCTYPE html>
