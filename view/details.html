@@ -51,6 +51,26 @@
              <p>وأصبح بوتش ولمور وسوني وليامز، وهما رائدا فضاء مخضرمان في ناسا، أول شخصين يختبران التوجه بمركبة ستارلاينر الفضائية لشركة بوينغ إلى محطة الفضاء الدولية.</p>
              <p>لكن مشكلات في نظام الدفع لمركبة ستارلاينر أثناء الرحلة أجبرتهما على تمديد إقامتهما، التي كان من المفترض أن تستمر ثمانية أيام، لأن ناسا اعتبرت عودتهما شديدة الخطورة على متن المركبة التي عادت وحدها إلى الأرض فارغة.</p>
              <p>وقالت ناسا إن صاروخا من طراز "فالكون 9" من شركة "سبيس إكس" دفع مركبة الفضاء "دراغون" إلى المدار، وهي تحمل رائدي الفضاء من ناسا ن مكلاين ونيكول يرز ورئيس وكالة استكشاف الفضاء اليابانية تاكويا أونيشي ورائد الفضاء الروسي كيرل بيسكوف.</p>
+             <div class="container mt-5">
+                    <h4 class="mb-4"> التعليقات</h4>
+
+                    <!-- Comment Form -->
+                    <form id="commentForm">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="user_name" placeholder="اسمك" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" name="comment" rows="3" placeholder="اكتب تعليقك هنا..." required></textarea>
+                        </div>
+                        <input type="hidden" name="news_id" value="<!-- ID الخبر -->">
+                        <button type="submit" class="btn btn-primary">إرسال التعليق</button>
+                    </form>
+
+                    <!-- Comments Display -->
+                    <div id="commentSection" class="mt-4">
+                        <!-- سيتم تحميل التعليقات هنا باستخدام AJAX -->
+                    </div>
+             </div>
              <div>
                  <h5 class="border-bottom">اقرا اياضا</h5>
                 <a href="#"class="text-decoration-none"> <p class="border-bottom">هل تجد صعوبة في الاستيقاظ صباحا؟.. جرب هذه التعديلات البسيطة</p></a>
@@ -59,6 +79,8 @@
                  <a href="#"class="text-decoration-none"><p class="border-bottom">الأعشاب بديل أهالي غزة لتجاوز منع إدخال إسرائيل للأدوية</p></a>
      
              </div>
+             
+
  
         </div>
         <div class="col-4">
@@ -73,6 +95,7 @@
                 <img src="https://imgs.search.brave.com/5LJ4QVkPATGSX0ZrAnpLk7oFFN0OFbm-HrjMKBMXnEQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaS10/b3JxdWUuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDI0LzAy/L2RiLmpwZw" alt="إعلان" class="img-fluid rounded">
                 <p class="text-center text-muted mt-2">إعلان</p>
             </div>
+            
             <h5 class="mb-3 border-bottom p-3">موضوعات ذات صلة</h5>
             <div class="row g-4">
                 <a href="#" class="text-decoration-none text-dark">
