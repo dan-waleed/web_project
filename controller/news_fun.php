@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once '/../config/config.php';
 
 $title = $_POST['titel'];
 $body_text = $_POST['body_text'];

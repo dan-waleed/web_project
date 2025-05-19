@@ -1,7 +1,5 @@
 <?php
-require_once 'config.php';
-
-// جلب الأخبار من الأحدث إلى الأقدم
+require_once '/../config/config.php';
 $sql = "SELECT * FROM `user`";
 $result = $conn->query($sql);
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once '/../config/config.php';
 class User
 {
     public function create($name, $email, $password, $role)

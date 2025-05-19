@@ -14,7 +14,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <img src="https://www.maannews.net/2022_assets/images/logo.png" class="w-1 h-auto" alt="logo" >
+            <img src="" class="w-1 h-auto" alt="logo" >
             <a class="navbar-brand" href="#">أخبار اليوم</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
