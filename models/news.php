@@ -39,7 +39,7 @@ class News
     }
     public function getAllNewsDesc()
     {
-        $sql = "SELECT * FROM news ORDER BY dateposted DESC";
+        $sql = "SELECT * FROM news ORDER BY datePosted DESC";
         $conn = DBConnection::connect();
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
