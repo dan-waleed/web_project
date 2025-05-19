@@ -1,6 +1,6 @@
 <?php
 require_once '/../config/config.php';
-require_once 'models/news.php'
+require_once '/../models/news.php';
 
 $sql = "SELECT * FROM news";
 $result = $conn->query($sql);
