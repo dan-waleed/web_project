@@ -70,5 +70,50 @@ class News
 
         return false;
     }
+
+    public function getNewsByCategory($category_id)
+    {
+        $sql = "SELECT * FROM news WHERE category_id = $category_id";
+        $conn = DBConnection::connect();
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+
+        return null;
+    }
+    public function getNewsByMostCommented()
+    {
+        $sql = "SELECT news.*, COUNT(comments.id) as comment_count 
+                FROM news 
+                LEFT JOIN comments ON news.id = comments.news_id 
+                GROUP BY news.id 
+                ORDER BY comment_count DESC";
+        $conn = DBConnection::connect();
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+
+        return null;
+    }
+
+    public function getNewsByMostViewed()
+    {
+        $sql = "SELECT news.*, COUNT(views.id) as view_count 
+                FROM news 
+                LEFT JOIN views ON news.id = views.news_id 
+                GROUP BY news.id 
+                ORDER BY view_count DESC";
+        $conn = DBConnection::connect();
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+
+        return null;
+    }
+    
+
     
 }
