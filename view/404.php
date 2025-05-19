@@ -16,7 +16,7 @@
 <div class="container notfound">
     <h1 class="display-4">404</h1>
     <p class="lead">عذرًا، الصفحة التي تبحث عنها غير موجودة.</p>
-    <a href="index.html" class="btn btn-primary">🔙 العودة إلى الصفحة الرئيسية</a>
+    <a href=" __DIR__ . '/../../view/indix.php';" class="btn btn-primary">🔙 العودة إلى الصفحة الرئيسية</a>
 </div>
 
 </body>

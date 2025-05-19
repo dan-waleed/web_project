@@ -1,6 +1,7 @@
 <?php
-require_once '../../config.php';
-require_once '../../models/user.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../models/user.php';
+
 
 $authors = User::getAuthors(); // يفترض أن تعيد جميع المستخدمين من النوع author
 ?>

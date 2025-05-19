@@ -1,62 +1,56 @@
 <?php
-require_once '/../config/config.php';
+require_once __DIR__ . '/../config/config.php';
+
 class User
 {
+        // ✅ الدالة المطلوبة
     public function create($name, $email, $password, $role)
-    {
+     {
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-        $sql = "INSERT INTO users (name, email, password, role) 
+        $sql = "INSERT INTO user (name, email, password, role) 
                 VALUES ('$name', '$email', '$hashed_password', '$role')";
 
         $conn = DBConnection::connect();
+        return $conn->query($sql);
+     }
+     
+    public static function getAuthors()
+    {
+        $conn = DBConnection::connect();
+        $sql = "SELECT * FROM user WHERE role = 'author'";
         $result = $conn->query($sql);
-        if ($result) {
-            return true;
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+    }
+
+    public function login($email, $password)
+    {
+        $sql = "SELECT * FROM users WHERE email='$email'";
+        $conn = DBConnection::connect();
+        $result = $conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            if (password_verify($password, $user['password'])) {
+                return $user;
+            }
         }
 
         return false;
     }
-
-    public function login($email, $password){
-        $sql = "SELECT * FROM user WHERE email='$email' AND password='$password'";
-        $conn = DBConnection::connect();
-
-        $result = $conn->query($sql);
-
-        $user = $result->fetch_assoc();
-
-        if ($user){
-            return $user;
-        }
-        else{
-            return False;
-        }
-
-    }
-
 
     public function getAllUsers()
     {
         $sql = "SELECT * FROM users";
         $conn = DBConnection::connect();
         $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
-        }
-
-        return null;
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
-    function deleteUser($id)
+    public function deleteUser($id)
     {
         $sql = "DELETE FROM users WHERE id = $id";
         $conn = DBConnection::connect();
-        $result = $conn->query($sql);
-        if ($result) {
-            return true;
-        }
-
-        return false;
+        return $conn->query($sql);
     }
 
 

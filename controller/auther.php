@@ -1,15 +1,12 @@
 <?php
-require_once '/../config/config.php';
-require_once '/../models/news.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../models/news.php';
 
-$sql = "SELECT * FROM news";
-$result = $conn->query($sql);
-
-class newsController{
+class newsController {
     private $model;
 
-    public function __construct($db) {
-        $this->model = new NewsModel($db);
+    public function __construct() {
+        $this->model = new News();
     }
 
     public function displayNews() {
@@ -17,6 +14,23 @@ class newsController{
         include __DIR__ . '/../view/news_table.php';
     }
 
-}
+    public function displayNewsDesc() {
+        $result = $this->model->getAllNewsDesc();
+        include __DIR__ . '/../view/news_table.php';
+    }
 
-?>
+    public function displayNewsByCategory($category_id) {
+        $result = $this->model->getNewsByCategory($category_id);
+        include __DIR__ . '/../view/news_table.php';
+    }
+
+    public function displayMostCommented() {
+        $result = $this->model->getNewsByMostCommented();
+        include __DIR__ . '/../view/news_table.php';
+    }
+
+    public function displayMostViewed() {
+        $result = $this->model->getNewsByMostViewed();
+        include __DIR__ . '/../view/news_table.php';
+    }
+}
