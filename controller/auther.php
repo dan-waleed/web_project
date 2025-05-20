@@ -19,10 +19,11 @@ class newsController {
         include __DIR__ . '/../view/news_table.php';
     }
 
-    public function displayNewsByCategory($category_id) {
-        $result = $this->model->getNewsByCategory($category_id);
-        include __DIR__ . '/../view/news_table.php';
+    public function showCategoryPage($category_id) {
+    $result = $this->model->getNewsByCategory($category_id);
+    include __DIR__ . '/../view/news_table.php';
     }
+
 
     public function displayMostCommented() {
         $result = $this->model->getNewsByMostCommented();
@@ -33,4 +34,5 @@ class newsController {
         $result = $this->model->getNewsByMostViewed();
         include __DIR__ . '/../view/news_table.php';
     }
+    
 }

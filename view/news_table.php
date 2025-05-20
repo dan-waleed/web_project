@@ -1,26 +1,28 @@
-<h4 class="mb-4">جميع الأخبار</h4>
-
-<?php if (!empty($result) && is_array($result)): ?>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>الرقم</th>
-                <th>العنوان</th>
-                <th>القسم</th>
-                <th>تاريخ النشر</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($result as $row): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['id']) ?></td>
-                    <td><?= htmlspecialchars($row['title']) ?></td>
-                    <td><?= htmlspecialchars($row['category_id']) ?></td>
-                    <td><?= isset($row['datePosted']) ? htmlspecialchars($row['datePosted']) : '---' ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+<?php if (!empty($result)): ?>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <?php foreach ($result as $news): ?>
+            <div class="col">
+                <a href="details.php?id=<?= $news['id'] ?>" class="text-decoration-none text-dark">
+                    <div class="card news-card h-100">
+                        <?php if (!empty($news['image_url'])): ?>
+                            <img src="<?= htmlspecialchars($news['image_url']) ?>" class="card-img-top" style="height: 200px; object-fit: cover;" alt="صورة الخبر">
+                        <?php else: ?>
+                            <img src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="صورة افتراضية">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($news['title']) ?></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <i class="fas fa-calendar-alt"></i> <?= htmlspecialchars($news['publish_date']) ?>
+                            </h6>
+                            <p class="card-text">
+                                <?= mb_substr(strip_tags($news['body']), 0, 120) . '...' ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <?php endforeach; ?>
+    </div>
 <?php else: ?>
-    <p class="text-muted">لا توجد أخبار لعرضها.</p>
+    <div class="alert alert-info text-center">لا توجد أخبار متاحة حاليًا.</div>
 <?php endif; ?>

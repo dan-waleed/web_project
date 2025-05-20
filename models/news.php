@@ -49,17 +49,25 @@ class News
 
         return null;
     } 
-    public function getNewsById($id)
-    {
-        $sql = "SELECT * FROM news WHERE id = $id";
+    public function getNewsById($id) {
         $conn = DBConnection::connect();
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
-        }
-
-        return null;
+        $stmt = $conn->prepare("SELECT * FROM news WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
     }
+
+    public function getRelatedNews($category_id, $exclude_id) {
+        $conn = DBConnection::connect();
+        $stmt = $conn->prepare("SELECT id, title, image_url FROM news WHERE category_id = ? AND id != ? ORDER BY publish_date DESC LIMIT 4");
+        $stmt->bind_param("ii", $category_id, $exclude_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
     public function deleteNews($id)
     {
         $sql = "DELETE FROM news WHERE id = $id";
@@ -72,17 +80,19 @@ class News
         return false;
     }
 
-    public function getNewsByCategory($category_id)
+    public function getNewsByCategory($category_id) 
     {
         $sql = "SELECT * FROM news WHERE category_id = $category_id";
         $conn = DBConnection::connect();
         $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
-        }
 
-        return null;
+    if ($result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC); // ✅ Return all news
     }
+
+        return [];
+    }
+
     public function getNewsByMostCommented()
     {
         $sql = "SELECT news.*, COUNT(comments.id) as comment_count 
@@ -124,6 +134,7 @@ class News
     
     return $stmt->execute();
     }
+
 
 
 
