@@ -12,7 +12,7 @@
         <a class="navbar-brand" href="#">لوحة التحكم</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="../index.html" class="nav-link">العودة للموقع</a></li>
+                <li class="nav-item"><a href="../index.PHP" class="nav-link">العودة للموقع</a></li>
                 <li class="nav-item"><a href="../../logout.php" class="nav-link">تسجيل الخروج</a></li>
             </ul>
         </div>
