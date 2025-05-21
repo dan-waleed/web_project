@@ -1,41 +1,97 @@
+<?php
+session_start();
+$error = $_SESSION['login_error'] ?? '';
+unset($_SESSION['login_error']);
+?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>تسجيل الدخول</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تسجيل الدخول</title>
+  <!-- Bootstrap CSS -->
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+    rel="stylesheet"
+  >
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 80px auto;
+    }
+    .login-card {
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    .form-control {
+      border-radius: 4px;
+      padding: 10px;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+    .btn-primary:hover {
+      background-color: #0069d9;
+    }
+    .alert {
+      font-size: 0.95rem;
+      padding: 10px;
+    }
+  </style>
 </head>
-<body class="bg-light">
-
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow-lg border-0 rounded-3">
-                <div class="card-body">
-                    <h4 class="text-center mb-4">تسجيل الدخول</h4>
-
-                    <form action="login.php" method="POST">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">اسم المستخدم</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="password" class="form-label">كلمة المرور</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">دخول</button>
-                    </form>
-
-                    <div class="mt-3 text-center">
-                        <small>ليس لديك حساب؟ <a href="#">سجّل الآن</a></small>
-                    </div>
-                </div>
-            </div>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <h2>تسجيل الدخول</h2>
+      <?php if ($error): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+      <?php endif; ?>
+      <form action="../controller/login.php" method="post">
+        <div class="mb-3">
+          <label class="form-label" for="email">البريد الإلكتروني</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="form-control" 
+            placeholder="أدخل بريدك الإلكتروني" 
+            required 
+            autofocus
+          >
         </div>
+        <div class="mb-3">
+          <label class="form-label" for="password">كلمة المرور</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            class="form-control" 
+            placeholder="أدخل كلمة المرور" 
+            required
+          >
+        </div>
+        <button type="submit" class="btn btn-primary w-100">دخول</button>
+      </form>
     </div>
-</div>
-
+  </div>
 </body>
 </html>

@@ -22,22 +22,6 @@ class User
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
-    public function login($email, $password)
-    {
-        $sql = "SELECT * FROM users WHERE email='$email'";
-        $conn = DBConnection::connect();
-        $result = $conn->query($sql);
-
-        if ($result && $result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            if (password_verify($password, $user['password'])) {
-                return $user;
-            }
-        }
-
-        return false;
-    }
-
     public function getAllUsers()
     {
         $sql = "SELECT * FROM users";

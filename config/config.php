@@ -1,9 +1,4 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbName = "news_database";
-
 class DBConnection
 {
     public static function connect(): mysqli

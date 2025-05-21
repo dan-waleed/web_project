@@ -54,11 +54,11 @@ $content = ob_get_clean();
         <a class="navbar-brand" href="#">أخبار اليوم</a>
         <div class="collapse navbar-collapse" id="navbarNav">
            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/web_project/view/indix.php">الرئيسية</a></li>
-                <li class="nav-item"><a class="nav-link" href="/web_project/view/indix.php?category=1">سياسة</a></li>
-                <li class="nav-item"><a class="nav-link" href="/web_project/view/indix.php?category=2">اقتصاد</a></li>
-                <li class="nav-item"><a class="nav-link" href="/web_project/view/indix.php?category=3">رياضة</a></li>
-                <li class="nav-item"><a class="nav-link" href="/web_project/view/indix.php?category=4">صحة</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php">الرئيسية</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=1">سياسة</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=2">اقتصاد</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=3">رياضة</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=4">صحة</a></li>
           </ul>
 
         </div>

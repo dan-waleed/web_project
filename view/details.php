@@ -1,10 +1,12 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../models/news.php';
+require_once __DIR__ . '/../models/commints.php';
 
 $newsModel = new News();
 $news = null;
 $relatedNews = [];
+$commentModel = new Comment();
 
 if (isset($_GET['id'])) {
     $news = $newsModel->getNewsById($_GET['id']);
@@ -21,11 +23,11 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل الخبر</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-light">
 
-<!-- ✅ Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -34,13 +36,14 @@ if (isset($_GET['id'])) {
         <img src="https://www.maannews.net/2022_assets/images/logo.png" class="w-1 h-auto" alt="logo">
         <a class="navbar-brand" href="#">أخبار اليوم</a>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.php">الرئيسية</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?category=1">سياسة</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?category=2">اقتصاد</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?category=3">رياضة</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?category=4">صحة</a></li>
-            </ul>
+           <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php">الرئيسية</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=1">سياسة</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=2">اقتصاد</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=3">رياضة</a></li>
+                <li class="nav-item"><a class="nav-link" href="/web_project/view/index.php?category=4">صحة</a></li>
+          </ul>
+
         </div>
         <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="ابحث" aria-label="Search">
@@ -48,25 +51,62 @@ if (isset($_GET['id'])) {
     </div>
 </nav>
 
-<!-- ✅ Main Content -->
 <div class="container py-4">
     <?php if ($news): ?>
         <div class="row mb-3">
             <h1 class="mt-2 fw-bold"><?= htmlspecialchars($news['title']) ?></h1>
             <div class="text-muted mt-2"><?= htmlspecialchars($news['publish_date'] ?? '') ?></div>
-            <h6 class="mb-3"><?= htmlspecialchars($news['category'] ?? '') ?></h6>
+            <h6 class="mb-3">قسم: <?= htmlspecialchars($news['category'] ?? '') ?></h6>
         </div>
 
         <div class="row mb-3">
             <div class="col-8">
                 <img src="<?= !empty($news['image_url']) ? htmlspecialchars($news['image_url']) : 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png' ?>"
-                     class="img-fluid mt-4"
-                     alt="صورة الخبر" style="height: 500px;">
+                     class="img-fluid mt-4" alt="صورة الخبر" style="height: 500px;">
                 <p class="p-2"><?= nl2br(htmlspecialchars($news['body'])) ?></p>
+
+                <!-- نموذج التعليق -->
+                <div class="mt-5">
+                    <h5 class="mb-3">أضف تعليقك</h5>
+                    <form id="commentForm">
+                        <input type="hidden" name="news_id" value="<?= $news['id'] ?>">
+                        <div class="mb-3">
+                            <label for="user_name" class="form-label">الاسم</label>
+                            <input type="text" name="user_name" id="user_name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">التعليق</label>
+                            <textarea name="comment" id="comment" rows="4" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">إرسال</button>
+                    </form>
+                    <div id="commentAlert" class="mt-3"></div>
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="mb-3">التعليقات السابقة</h5>
+                    <div id="commentList">
+                    <?php
+                        $conn = DBConnection::connect();
+                        $news_id = $news['id'];
+                        $comments = $conn->query("SELECT username, comment_text, created_at FROM comments WHERE news_id = $news_id ORDER BY created_at DESC");
+                        if ($comments->num_rows > 0):
+                            while ($row = $comments->fetch_assoc()): ?>
+                                <div class="border-bottom pb-2 mb-3">
+                                    <strong><?= htmlspecialchars($row['username']) ?></strong>
+                                    <small class="text-muted d-block"><?= $row['created_at'] ?></small>
+                                    <p class="mb-0"><?= nl2br(htmlspecialchars($row['comment_text'])) ?></p>
+                                </div>
+                            <?php endwhile;
+                        else:
+                            echo '<p class="text-muted">لا توجد تعليقات بعد.</p>';
+                        endif;
+                    ?>
+                    </div>
+                </div>
             </div>
 
             <div class="col-4">
-                <!-- ✅ المزيد من الأخبار -->
                 <h5 class="mb-3 border-bottom p-2">المزيد من الأخبار</h5>
                 <?php if (!empty($relatedNews)): ?>
                     <?php foreach ($relatedNews as $item): ?>
@@ -91,7 +131,6 @@ if (isset($_GET['id'])) {
     <?php endif; ?>
 </div>
 
-<!-- ✅ Footer -->
 <footer class="bg-dark text-light text-center p-3 mt-4">
     <div class="container">
         <div class="row text-end">
@@ -124,6 +163,43 @@ if (isset($_GET['id'])) {
         </div>
     </div>
 </footer>
+
+<script>
+$('#commentForm').on('submit', function(e) {
+    e.preventDefault();
+
+    const user_name = $('#user_name').val();
+    const comment_text = $('#comment').val();
+
+    $.ajax({
+        url: 'submit_comment.php',
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function(response) {
+            let alertType = response.success ? 'alert-success' : 'alert-danger';
+            $('#commentAlert').html(`<div class="alert ${alertType}">${response.message}</div>`);
+
+            if (response.success) {
+                // إعادة تعيين النموذج
+                $('#commentForm')[0].reset();
+
+                // إضافة التعليق إلى قائمة التعليقات
+                $('#commentList').prepend(`
+                    <div class="border-bottom pb-2 mb-3">
+                        <strong>${user_name}</strong>
+                        <small class="text-muted d-block">الآن</small>
+                        <p class="mb-0">${comment_text.replace(/\\n/g, '<br>')}</p>
+                    </div>
+                `);
+            }
+        },
+        error: function() {
+            $('#commentAlert').html(`<div class="alert alert-danger">فشل الاتصال بالخادم.</div>`);
+        }
+    });
+});
+
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

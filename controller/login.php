@@ -1,31 +1,37 @@
 <?php
 session_start();
-require_once 'models/user.php';
+require_once __DIR__ . '/auth.php';
 
-$email = $_POST['email'] ?? '';
-$password = $_POST['password'] ?? '';
+$auth = new Auth();
 
-$userModel = new User();
-
-$user = $userModel->login($email, $password);
-
-
-if($user){
-    echo "Welcome " . $user['name'];
-    $_SESSION['name'] = $user['name'];
-    $_SESSION['email'] = $user['email'];
-    $_SESSION['role'] = $user['role'];
-    setcookie("name", $user['name'], time() + 3600);
-    setcookie("email", $user['email'], time() + 3600);
-    setcookie("role", $user['role'], time() + 3600);
-
-    //header('location: index.php');
-    exit();
-
-}
-else{
-    echo "Invalid  username or password!";
+if ($auth->isLoggedIn()) {
+    header('Location: ../view/index.php');
+    exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email    = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
 
-?>
+    // missing credentials?
+    if ($email === '' || $password === '') {
+        $_SESSION['login_error'] = 'يرجى إدخال البريد الإلكتروني وكلمة المرور';
+        header('Location: ../view/login_form.php');
+        exit;
+    }
+
+    if ($auth->login($email, $password)) {
+        // logged in—send to index (or split by role if you like)
+        header('Location: ../view/index.php');
+        exit;
+    } else {
+        // bad credentials
+        $_SESSION['login_error'] = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+        header('Location: ../view/login_form.php');
+        exit;
+    }
+}
+
+// If someone visits this file directly, drop them back to the form
+header('Location: ../view/login_form.php');
+exit;
